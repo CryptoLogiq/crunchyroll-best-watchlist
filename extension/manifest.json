@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Crunchyroll Best Watchlist",
+  "version": "0.5.6",
+  "description": "Organize your Crunchyroll watchlist directly on the website.",
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.crunchyroll.com/*"
+      ],
+      "js": [
+        "src/page-hook.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://*.crunchyroll.com/*"
+      ],
+      "js": [
+        "src/core.js",
+        "src/placement.js",
+        "src/i18n.js",
+        "src/api.js",
+        "src/audio.js",
+        "vendor/analyzer.js",
+        "src/analysis.js",
+        "src/cache.js",
+        "src/styles.js",
+        "src/synopsis.js",
+        "src/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Best Watchlist \u2014 diagnostic",
+    "default_popup": "popup.html"
+  }
+}

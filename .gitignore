@@ -1,0 +1,17 @@
+# Consignes et contexte locaux de l'agent
+/AGENTS.md
+/.agent/
+/.agents/
+/.codex/
+/.aws/
+
+# Ressources locales
+/ignored/
+
+# Archives générées et cache Python
+/dist/
+__pycache__/
+
+# Empaquetage local Chromium (clé privée et extension générée)
+/extension.pem
+/extension.crx
