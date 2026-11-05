@@ -93,30 +93,30 @@ l’onglet pour effacer immédiatement les données affichées.
 ## Développement et vérifications
 
 ```text
-extension/
-  manifest.json       Déclarations MV3, accès limité à *.crunchyroll.com
-  src/core.js         Règles de présentation, recherche et tri
-  src/audio.js        Sélection des versions selon les deux langues préférées
-  src/analysis.js     Analyse bornée et résultats progressifs
-  src/api.js          API de même origine et renouvellement de session
-  src/page-hook.js    Observation de la session du site
-  src/cache.js        Instantanés locaux de la watchlist
-  src/synopsis.js     Chargement et cache des résumés de séries
-  src/content.js      Interface Shadow DOM et navigation
-  src/styles.js       Styles compacts et responsive
-  src/i18n.js         Traductions anglaise, française et japonaise
-  src/popup.js         Diagnostic accessible depuis l’icône
-  vendor/             Moteur Watchroll et sa licence MIT
-tests/                Scénarios Chromium avec données synthétiques
-tools/check.py        Contrôles du manifeste et tests navigateur
-tools/package.py      Archive reproductible contenant uniquement extension/
+extension/                 Sources communes et manifeste MV3 de base
+  src/                     Interface, règles, langues, session, stockage
+  vendor/                  Moteur Watchroll et licence MIT
+browsers/chromium/         Différences propres à Chromium / Chrome / Edge
+browsers/firefox/          Différences Firefox (portage à valider)
+dist/chromium/             Extension Chromium générée (ignorée)
+dist/firefox/              Extension Firefox générée (ignorée)
+tests/                     Scénarios communs et contrôles d'empaquetage
+tools/build.py             Construction isolée des deux cibles
+tools/package.py           ZIP reproductibles par cible/version
+docs/browser-validation.md Matrice des essais réels
 ```
+
+Les frontières et règles de contribution sont dans [browsers/README.md](browsers/README.md).
+L'installation Chromium existante depuis `extension/` reste possible. Firefox est
+une cible de développement non encore validée, pas une version publiée.
 
 Depuis la racine du dépôt, avec Python 3 et Chromium installés :
 
 ```bash
+python3 -m unittest discover -s tests -p 'test_*.py'
 python3 tools/check.py
-python3 tools/package.py
+python3 tools/build.py --target all
+python3 tools/package.py --target all
 git diff --check
 ```
 

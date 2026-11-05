@@ -10,12 +10,11 @@ import tempfile
 import threading
 
 ROOT = Path(__file__).resolve().parents[1]
-manifest = json.loads((ROOT / 'extension/manifest.json').read_text())
-assert manifest['manifest_version'] == 3
-assert manifest['permissions'] == ['storage']
-for entry in manifest['content_scripts']:
-    for script in entry['js']:
-        assert (ROOT / 'extension' / script).is_file(), script
+from build import TARGETS, resources
+
+for target in TARGETS:
+    resources(target)
+    print(f'{target}: manifest and resource checks passed', flush=True)
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *_args):

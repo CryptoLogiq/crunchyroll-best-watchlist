@@ -1,111 +1,57 @@
 # Tâches du projet
 
-Ce fichier dirige le plan de travail de l'agent. Traiter les tâches ouvertes par priorité : **P0**, puis **P1**, puis **P2**. À priorité égale, suivre l'ordre de la liste, en respectant les dépendances indiquées.
+Ce fichier dirige le plan de l'agent : P0 avant P1 avant P2, puis ordre de la liste.
+Une demande explicite de l'utilisateur prime. Ne cocher qu'après vérification adaptée.
 
-- **P0** : urgent ou bloquant.
-- **P1** : prochaine étape importante.
-- **P2** : amélioration secondaire.
+## État actuel
 
-## État de la version 0.1.0
-
-Première version implémentée dans `extension/`, chargeable sans compilation.
-Hôte confirmé utilisé : `*.crunchyroll.com` avec routes localisées. Les tests
-synthétiques ne valident pas encore la watchlist connectée ni l'installation réelle
-sur Chrome/Edge ; les tâches correspondantes restent ouvertes.
-
-Choix de départ : mode VO sous-titrée, langues proposées selon l'interface mais
-modifiables indépendamment, vues Doublage/Sous-titres/Calendrier désactivées,
-repli VO activé pour le mode doublé, recherche limitée à la watchlist. Une attente
-dont la vue est désactivée reste dans À regarder avec son état. Priorité d'affichage :
-erreur, jamais commencé, épisodes lisibles, attente doublage, attente sous-titres,
-puis à jour ; le calendrier est une vue transversale. Masqués est indépendant.
-
-À vérifier ensuite : installation via `chrome://extensions`, panneau et progression
-sur une vraie watchlist, disponibilité audio par saison et changement de profil.
-Les instructions sont dans `README.md`.
+Version 0.5.6 : interface intégrée, audio préféré/secondaire, sous-titres, cache,
+favoris Crunchyroll, historique, recherche, tri et traductions EN/FR/JA implémentés.
+Les onglets optionnels apparaissent lorsqu'ils contiennent des résultats.
+Les anciennes demandes de repli VO automatique, cases de visibilité et blocs dépliants
+Masqués/Erreurs ont été remplacées par les décisions utilisateur consignées ci-dessous.
+Chrome/Chromium/Edge partagent une cible ; Firefox dispose d'une cible de préparation.
+La présence d'un paquet Firefox ne valide pas sa compatibilité.
 
 ## Tâches ouvertes
 
-### P0 — Cadrer une base fiable
+### P0 — Fiabilité avant diffusion
 
-- [ ] P0 — Vérifier les URL Crunchyroll réellement utilisées et les données disponibles sur une watchlist connectée.
-  - Distinguer domaines (`.com`, `.fr`, `.it` si réellement utilisés), sous-domaines et chemins de langue (`/fr/`, `/it/`, etc.). Ne pas présumer que chaque suffixe existe ou héberge la watchlist.
-  - Recenser les routes watchlist, les navigations sans rechargement, la pagination et les identifiants stables des séries.
-  - Comparer le DOM et les données déjà chargées par le site avec les besoins de classification ; ne prévoir des lectures API supplémentaires que si nécessaires.
-  - Validation : fixtures anonymisées et relevé des routes/hôtes confirmés. L'analyse statique actuelle ne valide pas une session connectée.
-- [ ] P0 — Définir les règles des catégories sélectionnées et leurs interactions.
-  - Catégories retenues : « À regarder » (épisodes disponibles non vus), « Doublage en attente », « Sous-titres en attente », « À commencer » (séries jamais regardées), « À jour » (aucun épisode en attente), « Cette semaine » (calendrier des sorties), « Erreurs » (échec d'analyse), « Masqués » (choix utilisateur).
-  - Prévoir aussi les onglets « Recherche » et « Paramètres » ; ils ne sont pas des états de visionnage.
-  - « À jour » concerne les séries commencées sans épisode en attente selon les préférences de visionnage ; ne pas assimiler cet état à une série terminée. Un nouvel épisode pertinent entraîne un reclassement.
-  - « Doublage en attente », « Sous-titres en attente » et « Cette semaine » ont chacun un réglage indépendant de visibilité ; leurs valeurs initiales restent à définir. Désactiver une vue ne doit pas modifier les préférences audio ni faire disparaître silencieusement des séries.
-  - « Erreurs » et « Masqués » utilisent des listes dépliantes accessibles au clavier, avec compteur et actions de nouvelle tentative/restauration adaptées.
-  - Définir les priorités entre états et les recoupements : une série peut apparaître au calendrier tout en relevant d'une catégorie de visionnage.
-  - Décider si le classement automatique permet une correction manuelle ; ne pas ajouter cette dernière implicitement.
-  - Validation : exemples de série jamais vue, épisode partiel, attente audio/sous-titres, sortie prochaine, série sans épisode en attente, erreur et masquage.
+- [ ] Consigner les essais réels de la version candidate dans `docs/browser-validation.md` :
+  routes localisées sur `.com`, watchlist vide/longue, pagination, navigation interne,
+  session expirée, reconnexion et changement de profil ; vérifier absence de mélange de comptes.
+- [ ] Vérifier les classifications sur des séries réelles : jamais commencée, reprise,
+  à jour puis nouvel épisode, audio préféré/secondaire selon saison, VO non japonaise,
+  sous-titres manquants, métadonnées absentes. Ajouter seulement les fixtures anonymisées utiles.
+- [ ] Vérifier les dates du calendrier et le marquage des estimations, les limites de saisons
+  analysées et les avertissements d'historique partiel ; documenter les limites constatées.
+- [ ] Auditer avant publication les permissions, le pont de session, l'absence de jetons
+  persistés et les seules écritures de compte autorisées : favoris après action explicite.
 
-- [ ] P0 — Définir les préférences de visionnage et les règles de repli audio.
-  - Séparer langue d'interface FR/EN, langue audio souhaitée et langue des sous-titres ; ne pas déduire automatiquement l'audio du domaine.
-  - Prévoir une préférence globale et une exception par série pour les utilisateurs alternant doublage et version originale. Proposer la préférence du site si elle est lisible, tout en laissant l'utilisateur la corriger.
-  - Distinguer doublage existant mais en retard, doublage absent pour la saison et disponibilité inconnue. Ne pas promettre un doublage futur sur la seule absence d'une piste.
-  - Permettre le choix entre attendre le doublage souhaité et regarder en version originale lorsque ce doublage n'existe pas ; rendre le repli explicite et configurable.
-  - Identifier la langue originale depuis les métadonnées fiables, sans supposer le japonais : elle peut être japonaise, coréenne, chinoise, anglaise ou autre. Si elle est inconnue, proposer les pistes disponibles sans en inventer une.
-  - Évaluer la disponibilité par saison/épisode et selon l'accès réel de l'utilisateur ; appliquer séparément la préférence de sous-titres, sans bascule silencieuse vers une langue non choisie.
-  - Validation : doublage préféré complet, en retard, absent, absent seulement sur une saison, métadonnées inconnues, VO non japonaise, exception par série et sous-titres manquants.
+### P1 — Valider les deux familles de navigateurs
 
-### P1 — Construire la première version intégrée
+- [ ] Adapter et valider Firefox sans modifier le comportement Chromium : traiter l'objet
+  `browser` natif actuellement remplacé dans `api.js`, vérifier événements entre mondes,
+  observation et renouvellement de session, API, stockage et popup. Utiliser un adaptateur
+  ciblé si nécessaire ; aucun fork du métier. Vérifier le minimum Firefox retenu.
+- [ ] Exécuter les tests de non-régression communs et les contrôles des deux paquets ;
+  compléter les essais manuels Chrome / Chromium / Edge / Firefox dans la matrice.
+- [ ] Valider sur les deux cibles installation, cache, lecture directe, cœur avec confirmation,
+  masquage/restauration, focus pendant analyse, navigation clavier et responsive.
 
-- [ ] P1 — Créer une base Manifest V3 pour Chrome, Chromium et Edge, avec permissions minimales.
-  - Modules JavaScript séparés : intégration Crunchyroll, normalisation des données, classification, interface, traductions et stockage si nécessaire.
-  - Déclarer les hôtes confirmés explicitement, avec leurs sous-domaines utiles ; aucun motif `crunchyroll.*` ni accès à tous les sites.
-  - Conserver la licence MIT et l'attribution des portions reprises de Watchroll ; choisir une identité propre.
-  - Validation : manifeste et ressources cohérents, chargement en mode développeur dans Chrome et Edge.
-  - Dépendance : vérification des hôtes et routes P0.
-- [ ] P1 — Implémenter la lecture des données et la classification indépendamment de l'affichage.
-  - S'inspirer de `common/src/api.js` et `analyzer.js` : progression réelle, saisons/épisodes, pagination, cache et concurrence bornée.
-  - Réduire le périmètre à la watchlist ; gérer chargement partiel, absence de session, erreurs et expiration de session.
-  - Ne pas modifier les données du compte. Si une passerelle de session est nécessaire, limiter ses messages et destinations et ne pas persister les jetons.
-  - Validation : tests unitaires ciblés de classification et normalisation avec fixtures anonymisées, sans réseau ni compte réel.
-  - Dépendance : règles P0 et base Manifest V3.
-- [ ] P1 — Intégrer les catégories directement dans la page watchlist Crunchyroll.
-  - Afficher les groupes et leurs cartes dans le site ; conserver les liens et actions utiles de la watchlist.
-  - Gérer arrivée directe, navigation interne, retour arrière, chargement différé et nouvelles cartes sans doublons.
-  - Isoler les styles, limiter les observations du DOM et nettoyer les effets en quittant la watchlist.
-  - Préserver l'affichage natif si l'intégration ne reconnaît pas la page ou échoue ; ne pas masquer les séries sans classement fiable.
-  - Validation : tests DOM ciblés (montage répété, nouvelles cartes, démontage) et essai manuel responsive/clavier sur session connectée.
-  - Dépendance : données normalisées et classification.
-- [ ] P1 — Ajouter les attentes de langue, le calendrier, le masquage, la recherche et les paramètres dans l'interface intégrée.
-  - Distinguer les épisodes effectivement disponibles dans la langue audio/sous-titres choisie ; gérer les métadonnées absentes sans inventer une disponibilité.
-  - Calendrier « Cette semaine » : distinguer dates connues et estimations, gérer fuseau horaire et absence de date.
-  - Masquage réversible et persistant localement, isolé par compte/profil si les données le permettent ; aucune suppression de la watchlist Crunchyroll.
-  - Définir le périmètre de Recherche (watchlist ou catalogue) avant implémentation ; ne pas reprendre automatiquement les services externes de Watchroll.
-  - Paramètres : audio et sous-titres globaux, exceptions par série, attente/repli VO, et interrupteurs indépendants pour Doublage en attente, Sous-titres en attente et Cette semaine.
-  - Présenter Erreurs et Masqués en listes dépliantes avec compteurs ; fournir une nouvelle tentative et une restauration sans rechargement global.
-  - Validation : tests ciblés des attentes de langue et replis VO, interrupteurs de visibilité, listes dépliantes au clavier, limites de semaine, masquage/restauration et recherche ; essai des paramètres persistants.
-  - Dépendance : règles P0, lecture des données et interface intégrée.
-- [ ] P1 — Fournir l'interface française et anglaise.
-  - Dictionnaires séparés ; traduire catégories, boutons, états vides, chargements et erreurs.
-  - Proposition : langue explicite du chemin en premier, puis domaine régional confirmé (`.fr` → français), puis langue déclarée de la page ; anglais par défaut, notamment `.com` sans indication de langue.
-  - Les langues non prises en charge reviennent à l'anglais ; permettre l'ajout ultérieur de traductions sans modifier la logique métier.
-  - Validation : cas `.com`, `/fr/watchlist`, `.fr` si confirmé, langue non prise en charge et parité des clés FR/EN.
-  - Dépendance : cartographie des URL P0.
-- [ ] P1 — Valider une version utilisable sur Chrome, Chromium et Edge.
-  - Utiliser un lanceur léger tel que `node --test` pour les règles pures ; ajouter uniquement l'outillage DOM nécessaire.
-  - Vérifier watchlist vide/longue, pagination, déconnexion, changement de langue/profil et nouvel épisode sur une série précédemment à jour.
-  - Documenter installation locale, commande de tests et limites connues ; exécuter les contrôles ciblés et `git diff --check` avant validation.
-  - Validation : tests automatisés réussis et résultats des essais manuels consignés par navigateur ; distinguer clairement les essais non exécutés.
-  - Dépendance : intégration et traductions.
+### P2 — Préparer les publications
 
-### P2 — Préparer le Chrome Web Store
-
-- [ ] P2 — Préparer le dossier de publication et une archive reproductible.
-  - Archive contenant uniquement les fichiers nécessaires, sans `ignored/`, contexte agent, secrets ou fixtures privées ; code exécutable embarqué localement.
-  - Icônes propres, captures de l'intégration réelle, descriptions FR/EN, version, assistance et mention du caractère non officiel.
-  - Documenter permissions, données consultées/stockées et politique de confidentialité ; vérifier les exigences du Store au moment de la soumission.
-  - Validation : archive installable, ressources présentes et déclarations conformes au comportement effectivement livré.
-  - Dépendance : version P1 validée.
-- [ ] P2 — Soumettre la version au Chrome Web Store après accord explicite de publication.
-  - Validation : dossier prêt à relire puis soumission ; l'acceptation reste une décision du Store.
-  - Dépendance : archive et fiche finalisées, compte développeur disponible.
+- [ ] Préparer icônes, captures réelles, descriptions FR/EN, assistance et mention non officielle.
+- [ ] Rédiger une politique de confidentialité fidèle au code et vérifier les déclarations
+  Chrome Web Store / Mozilla au moment de la soumission, notamment les permissions de données
+  Firefox. Préserver licence et attribution Watchroll.
+- [ ] Vérifier les archives finales par cible : mêmes sources communes, version cohérente,
+  ressources embarquées, aucune clé privée ni donnée de compte ; signer/distribuer Firefox
+  selon les exigences Mozilla. Dépendance : validation P0/P1.
+- [ ] Soumettre au Chrome Web Store après accord explicite, compte développeur disponible
+  et dossier relu ; commencer par une diffusion de test selon visibilité retenue.
+- [ ] Soumettre sur Firefox Add-ons après accord explicite et validation Firefox ;
+  l'acceptation des deux boutiques reste leur décision.
 
 ## Tâches terminées
 
@@ -160,3 +106,5 @@ Les instructions sont dans `README.md`.
 - [x] Libeller le lien d’épisode « Commencer EPx » / « Continuer EP x », avec traductions EN/JA (0.5.5, tests réussis).
 - [x] Afficher la note « ★ 4.7 » dans l’image à droite, sur fond contrasté, sans déplacer le cœur ; retirer la ligne de note en doublon (0.5.6 ; tests réussis).
 - [x] Préparer le commit initial de l’extension 0.5.6 : README réconcilié, 21 tests Chromium réussis, manifeste/popup/archive/licence vérifiés et fichiers locaux exclus.
+
+- [x] Structurer les cibles Chromium/Firefox sans déplacer l’installation existante : manifestes différentiels, constructions isolées, ZIP reproductibles, consignes agent et matrice de validation. Trois tests de construction et 21 scénarios Chromium réussis ; compatibilité fonctionnelle Firefox encore à valider.

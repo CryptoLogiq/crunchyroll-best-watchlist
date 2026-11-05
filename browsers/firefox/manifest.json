@@ -1,0 +1,8 @@
+{
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "best-watchlist@crunchyroll-best-watchlist",
+      "strict_min_version": "140.0"
+    }
+  }
+}

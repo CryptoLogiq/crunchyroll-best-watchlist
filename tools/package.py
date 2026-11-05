@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
-"""Package only extension resources; never include local agent/reference files."""
+"""Build and package independent, reproducible browser artifacts."""
+import argparse
 import json
-from pathlib import Path
 import zipfile
+from build import ROOT, TARGETS, build, resources
 
-root = Path(__file__).resolve().parents[1]
-source = root / 'extension'
-version = json.loads((source / 'manifest.json').read_text())['version']
-destination = root / 'dist' / f'crunchyroll-best-watchlist-{version}.zip'
-destination.parent.mkdir(exist_ok=True)
-with zipfile.ZipFile(destination, 'w', zipfile.ZIP_DEFLATED) as archive:
-    for path in sorted(source.rglob('*')):
-        if path.is_file():
-            entry = zipfile.ZipInfo(path.relative_to(source).as_posix(), (2026, 1, 1, 0, 0, 0))
+def package(target):
+    build(target)
+    files = resources(target)
+    version = json.loads(files['manifest.json'])['version']
+    destination = ROOT / 'dist' / f'crunchyroll-best-watchlist-{target}-{version}.zip'
+    with zipfile.ZipFile(destination, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for name, data in sorted(files.items()):
+            entry = zipfile.ZipInfo(name, (2026, 1, 1, 0, 0, 0))
             entry.compress_type = zipfile.ZIP_DEFLATED
             entry.external_attr = 0o644 << 16
-            archive.writestr(entry, path.read_bytes())
-print(destination)
+            archive.writestr(entry, data)
+    return destination
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--target', choices=(*TARGETS, 'all'), default='all')
+    args = parser.parse_args()
+    for target in TARGETS if args.target == 'all' else (args.target,):
+        print(package(target))
