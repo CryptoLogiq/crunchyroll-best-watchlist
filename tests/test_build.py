@@ -21,6 +21,16 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(chrome[name], firefox[name], name)
         self.assertEqual(chrome, resources('chromium'))
 
+    def test_no_private_key_in_browser_packages(self):
+        for target in ('chromium', 'firefox'):
+            files = resources(target)
+            self.assertIn('src/report-key.js', files)
+            for name, data in files.items():
+                self.assertNotIn('private-reports', name)
+                self.assertFalse(name.endswith('.pem'), name)
+                self.assertNotIn(b'BEGIN PRIVATE KEY', data, name)
+                self.assertNotIn(b'BEGIN RSA PRIVATE KEY', data, name)
+
     def test_nested_merge_does_not_mutate_base(self):
         base = {'action': {'default_popup': 'popup.html'}}
         result = merge(base, {'action': {'default_title': 'Firefox'}})

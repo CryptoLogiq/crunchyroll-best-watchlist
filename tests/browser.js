@@ -36,6 +36,62 @@
     equal(container.querySelector('a').rel, 'noopener noreferrer');
     container.remove();
   });
+  await test('encrypted reports authenticate edited Unicode text and watchlist sharing is explicit', async () => {
+    const text = '## Rapport modifié\n日本語・Français 😄\n';
+    const pair = {
+      publicKey: await crypto.subtle.importKey('jwk', BWL_TEST_RSA.publicKey,
+        { name: 'RSA-OAEP', hash: 'SHA-256' }, true, ['wrapKey']),
+      privateKey: await crypto.subtle.importKey('jwk', BWL_TEST_RSA.privateKey,
+        { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['unwrapKey']),
+    };
+    const bytes64 = bytes => btoa(String.fromCharCode(...new Uint8Array(bytes)));
+    const from64 = text => Uint8Array.from(atob(text), c => c.charCodeAt(0));
+    const spki = await crypto.subtle.exportKey('spki', pair.publicKey);
+    const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', spki));
+    const config = { id: [...hash].map(byte => byte.toString(16).padStart(2, '0')).join('').slice(0, 24), spki: bytes64(spki) };
+    const encoded = await BWLReportCrypto.encrypt(text, config);
+    equal(encoded.startsWith('BWL2:'), true);
+    const envelope = JSON.parse(new TextDecoder().decode(from64(encoded.slice(5))));
+    const aes = await crypto.subtle.unwrapKey('raw', from64(envelope.ek), pair.privateKey,
+      { name: 'RSA-OAEP' }, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    const params = { name: 'AES-GCM', iv: from64(envelope.iv),
+      additionalData: new TextEncoder().encode('BWL2:' + envelope.kid), tagLength: 128 };
+    const compressed = await crypto.subtle.decrypt(params, aes, from64(envelope.ct));
+    equal(await new Response(new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'))).text(), text);
+    const damaged = from64(envelope.ct); damaged[0] ^= 1;
+    let rejected = false;
+    try { await crypto.subtle.decrypt(params, aes, damaged); } catch { rejected = true; }
+    equal(rejected, true);
+    const first = await BWLReportCrypto.encrypt(text);
+    equal(first !== await BWLReportCrypto.encrypt(text), true);
+    equal(atob(first.slice(5)).includes('Rapport'), false);
+    rejected = false;
+    try { await BWLReportCrypto.encrypt('x'.repeat(2_000_001)); } catch { rejected = true; }
+    equal(rejected, true);
+    const secret = 'ACCOUNT_TOKEN_EMAIL_COOKIE';
+    const raw = { results: [{ seriesId: 'G12345678', title: '作品の名前', status: 'pending',
+      token: secret, login: secret, account_id: secret, error: secret, image: secret,
+      pending: [{ id: 'E12345678', number: 42, season: 2, audio: 'fr-FR', token: secret, url: secret }] }],
+      scope: secret, prefs: { hidden: ['G12345678'] } };
+    equal('watchlist' in BWLReport.snapshot(raw), false);
+    const report = BWLReport.snapshot(raw, false, true);
+    equal(report.watchlist[0].title, '作品の名前');
+    equal(report.watchlist[0].pending[0].number, 42);
+    equal(report.watchlist[0].hidden, true);
+    equal(JSON.stringify(report).includes(secret), false);
+    const container = document.createElement('div'); document.body.append(container);
+    const calls = [];
+    BWLReport.mount(container, async (example, watchlist) => {
+      calls.push([example, watchlist]); return BWLReport.snapshot(raw, example, watchlist);
+    });
+    container.querySelector('button').click(); await new Promise(resolve => setTimeout(resolve, 0));
+    equal(calls[0], [false, false]);
+    const listToggle = container.querySelectorAll('input')[1]; listToggle.checked = true;
+    listToggle.dispatchEvent(new Event('change')); await new Promise(resolve => setTimeout(resolve, 0));
+    equal(calls[1], [false, true]);
+    equal(container.querySelector('textarea').value.includes('作品の名前'), true);
+    container.remove();
+  });
   await test('localized paths override .com and document language', () => {
     equal(BWL.language('https://www.crunchyroll.com/fr/watchlist', 'en'), 'fr');
     equal(BWL.language('https://www.crunchyroll.com/it/watchlist', 'fr'), 'en');

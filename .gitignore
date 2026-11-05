@@ -15,3 +15,6 @@ __pycache__/
 # Empaquetage local Chromium (clé privée et extension générée)
 /extension.pem
 /extension.crx
+
+# Clé privée, outils et rapports de diagnostic locaux
+/private-reports/
