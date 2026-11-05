@@ -4,6 +4,10 @@
   document.documentElement.lang = CRI18n.lang();
   for (const node of document.querySelectorAll('[data-i18n]')) node.textContent = t(node.dataset.i18n);
   document.querySelector('#diagnostic').setAttribute('aria-label', t('popupDiagnostic'));
+  BWLReport.mount(document.body, async includeExample => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    return chrome.tabs.sendMessage(tab.id, { type: 'bwl:support', includeExample });
+  });
   const status = document.querySelector('#status');
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

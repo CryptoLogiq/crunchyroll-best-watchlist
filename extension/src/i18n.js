@@ -1,6 +1,18 @@
 var CRI18n = (() => {
   const messages = {
     fr: {
+      reportProblem: "Signaler un problème",
+      reportPrivacy: "Aucun envoi automatique. Le rapport exclut jetons, cookies, comptes, titres, recherches et URL privées. Relisez-le avant de le publier : les issues GitHub sont publiques.",
+      reportExample: " Ajouter un exemple anonymisé (première erreur, sinon première série) : langues, état et numéro du prochain épisode. Ces informations restent facultatives.",
+      reportPreview: "Rapport à relire et modifier",
+      reportPrepare: "Préparer le rapport",
+      reportReview: "Relisez et modifiez le rapport, copiez-le puis collez-le dans votre issue GitHub. Décrivez aussi les étapes et le résultat attendu.",
+      reportUnavailable: "Diagnostic de la page indisponible. Ouvrez la watchlist et rechargez-la.",
+      reportCopy: "Copier le rapport",
+      reportCopied: "Rapport copié.",
+      reportCopyManual: "Sélection effectuée : utilisez Ctrl+C pour copier.",
+      reportGithub: "Ouvrir une issue GitHub",
+
       startEpisode: 'Commencer EP{number}', continueEpisode: 'Continuer EP {number}',
       sessionPaused: 'Session Crunchyroll expirée ou indisponible. La liste enregistrée reste affichée ; l’analyse reprendra lorsque la session sera renouvelée.',
       primaryAudio: 'Langue audio préférée', secondaryAudio: 'Langue audio secondaire', audioPreferenceHelp: 'La première langue est prioritaire, puis la seconde. Si aucune n’est disponible pour un épisode, il reste en attente de doublage. Les sous-titres sont vérifiés pour la version originale. La disponibilité dépend de la série et de votre région.',
@@ -59,6 +71,18 @@ var CRI18n = (() => {
       missingDate: 'Aucune date disponible', local: 'Préférences locales à ce profil. Les boutons cœur modifient vos favoris Crunchyroll.',
     },
     en: {
+      reportProblem: "Report a problem",
+      reportPrivacy: "Nothing is sent automatically. The report excludes tokens, cookies, accounts, titles, searches and private URLs. Review it before posting: GitHub issues are public.",
+      reportExample: " Include an anonymized example (first error, otherwise first series): languages, state and next episode number. This is optional.",
+      reportPreview: "Report to review and edit",
+      reportPrepare: "Prepare report",
+      reportReview: "Review and edit the report, copy it, then paste it into your GitHub issue. Also describe the steps and expected result.",
+      reportUnavailable: "Page diagnostic unavailable. Open the watchlist and reload it.",
+      reportCopy: "Copy report",
+      reportCopied: "Report copied.",
+      reportCopyManual: "Text selected: press Ctrl+C to copy.",
+      reportGithub: "Open a GitHub issue",
+
       startEpisode: 'Start EP{number}', continueEpisode: 'Continue EP {number}',
       sessionPaused: 'Crunchyroll session expired or unavailable. Your saved list remains visible; analysis will resume when the session is renewed.',
       primaryAudio: 'Preferred audio language', secondaryAudio: 'Secondary audio language', audioPreferenceHelp: 'The first language has priority, then the second. An episode waits for a dub if neither is available. Subtitles are checked for original audio. Availability depends on the series and your region.',
@@ -117,6 +141,18 @@ var CRI18n = (() => {
       local: 'Preferences are local to this profile. Heart buttons update your Crunchyroll favorites.',
     },
     ja: {
+      reportProblem: "問題を報告",
+      reportPrivacy: "自動送信はしません。トークン、Cookie、アカウント、作品名、検索語、非公開URLは含めません。GitHubのIssueは公開されるため、投稿前に内容を確認してください。",
+      reportExample: " 匿名化した例を含める（最初のエラー、なければ最初の作品）：言語、状態、次の話数。任意です。",
+      reportPreview: "確認・編集するレポート",
+      reportPrepare: "レポートを作成",
+      reportReview: "内容を確認・編集し、コピーしてGitHubのIssueに貼り付けてください。再現手順と期待する結果も記入してください。",
+      reportUnavailable: "診断を取得できません。ウォッチリストを開いて再読み込みしてください。",
+      reportCopy: "レポートをコピー",
+      reportCopied: "コピーしました。",
+      reportCopyManual: "選択しました。Ctrl+Cでコピーしてください。",
+      reportGithub: "GitHubのIssueを開く",
+
       startEpisode: '第{number}話から視聴', continueEpisode: '第{number}話を続ける',
       sessionPaused: 'Crunchyrollのセッションが期限切れか利用できません。保存済みリストは表示したまま、セッション更新後に解析を再開します。',
       primaryAudio: '優先する音声言語', secondaryAudio: '第2希望の音声言語', audioPreferenceHelp: '第1希望を優先し、なければ第2希望を使用します。どちらもない場合は吹替待ちとなります。オリジナル音声では字幕も確認します。配信言語は作品と地域によって異なります。',

@@ -1,7 +1,7 @@
 # Crunchyroll Best Watchlist
 
 Extension Manifest V3 pour Chromium, Chrome et Edge. La version de développement
-**0.5.6** organise la watchlist directement dans Crunchyroll, sous les onglets
+**0.5.7** organise la watchlist directement dans Crunchyroll, sous les onglets
 Watchlist / Crunchylists / Historique. La liste native reste accessible dessous.
 
 Extension non officielle, sans affiliation à Crunchyroll. La publication sur le
@@ -153,3 +153,16 @@ Crunchyroll restent chargés par leur fonctionnement habituel.
 
 Le moteur Watchroll est redistribué avec sa licence MIT et ses modifications
 locales documentées dans `extension/THIRD_PARTY.md`.
+
+## Signaler un problème
+
+Dans **Paramètres** ou la popup, ouvrir **Signaler un problème**. Le rapport est
+préparé localement, visible et modifiable avant copie. Le lien ouvre une issue GitHub
+sans transmettre le rapport : le coller manuellement avec les étapes de reproduction.
+Les issues sont publiques. Aucun jeton, cookie, compte, titre, recherche, URL privée
+ou réponse API brute n'est inclus automatiquement. Aucun journal de navigation n'est collecté.
+Le rapport comprend les versions (navigateur limité à sa version majeure), préférences
+audio et filtres, état de session/analyse/cache et compteurs techniques.
+Un exemple facultatif ajoute uniquement état, langues et numéro du prochain épisode
+pour la première erreur ou la première série ; ce résumé ne garantit pas la reproduction
+complète du bug et ne contient aucun identifiant permettant de retrouver le titre.
