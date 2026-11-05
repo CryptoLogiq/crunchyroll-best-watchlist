@@ -1,8 +1,13 @@
 var CRI18n = (() => {
   const messages = {
     fr: {
+      reportPrivacy: "Aucun envoi automatique. Jetons, cookies, login, e-mail, identifiants de compte/profil, recherches et URL privées sont exclus. Relisez le rapport avant publication : les issues GitHub sont publiques.",
+      reportWatchlist: " Joindre ma watchlist : titres, identifiants publics des séries/épisodes, favoris, masquage, langues et progression disponible. Visible dans l’aperçu avant partage.",
+      reportEncodingHelp: "Le bouton chiffre exactement le texte visible avec notre clé publique (AES-256-GCM et RSA-OAEP). Seule la clé privée du mainteneur permet de le déchiffrer. La copie en clair reste possible si vous la choisissez.",
+      reportCopyEncoded: "Copier le rapport chiffré",
+      reportEncodeFailed: "Chiffrement impossible ou rapport trop volumineux (maximum 2 Mo). Aucun rapport en clair n’a été copié automatiquement.",
+
       reportProblem: "Signaler un problème",
-      reportPrivacy: "Aucun envoi automatique. Le rapport exclut jetons, cookies, comptes, titres, recherches et URL privées. Relisez-le avant de le publier : les issues GitHub sont publiques.",
       reportExample: " Ajouter un exemple anonymisé (première erreur, sinon première série) : langues, état et numéro du prochain épisode. Ces informations restent facultatives.",
       reportPreview: "Rapport à relire et modifier",
       reportPrepare: "Préparer le rapport",
@@ -71,8 +76,13 @@ var CRI18n = (() => {
       missingDate: 'Aucune date disponible', local: 'Préférences locales à ce profil. Les boutons cœur modifient vos favoris Crunchyroll.',
     },
     en: {
+      reportPrivacy: "Nothing is sent automatically. Tokens, cookies, login, email, account/profile IDs, searches and private URLs are excluded. Review before posting: GitHub issues are public.",
+      reportWatchlist: " Attach my watchlist: titles, public series/episode IDs, favorites, hidden state, languages and available progress. Shown in the preview before sharing.",
+      reportEncodingHelp: "The button encrypts exactly the visible text with our public key (AES-256-GCM and RSA-OAEP). Only the maintainer’s private key can decrypt it. Readable copying remains available if you choose it.",
+      reportCopyEncoded: "Copy encrypted report",
+      reportEncodeFailed: "Encryption failed or report too large (maximum 2 MB). No plaintext report was copied automatically.",
+
       reportProblem: "Report a problem",
-      reportPrivacy: "Nothing is sent automatically. The report excludes tokens, cookies, accounts, titles, searches and private URLs. Review it before posting: GitHub issues are public.",
       reportExample: " Include an anonymized example (first error, otherwise first series): languages, state and next episode number. This is optional.",
       reportPreview: "Report to review and edit",
       reportPrepare: "Prepare report",
@@ -141,8 +151,13 @@ var CRI18n = (() => {
       local: 'Preferences are local to this profile. Heart buttons update your Crunchyroll favorites.',
     },
     ja: {
+      reportPrivacy: "自動送信はしません。トークン、Cookie、ログイン名、メール、アカウント・プロフィールID、検索語、非公開URLは含めません。GitHubのIssueは公開されるため、投稿前に確認してください。",
+      reportWatchlist: " ウォッチリストを添付：作品名、公開作品・エピソードID、お気に入り、非表示状態、言語、取得済みの進捗。共有前にプレビューに表示します。",
+      reportEncodingHelp: "表示中のテキストを公開鍵で暗号化します（AES-256-GCMとRSA-OAEP）。管理者の秘密鍵のみで復号できます。必要であれば平文でもコピーできます。",
+      reportCopyEncoded: "暗号化したレポートをコピー",
+      reportEncodeFailed: "暗号化できないか、2 MBの上限を超えています。平文が自動コピーされることはありません。",
+
       reportProblem: "問題を報告",
-      reportPrivacy: "自動送信はしません。トークン、Cookie、アカウント、作品名、検索語、非公開URLは含めません。GitHubのIssueは公開されるため、投稿前に内容を確認してください。",
       reportExample: " 匿名化した例を含める（最初のエラー、なければ最初の作品）：言語、状態、次の話数。任意です。",
       reportPreview: "確認・編集するレポート",
       reportPrepare: "レポートを作成",

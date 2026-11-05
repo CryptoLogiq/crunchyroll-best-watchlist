@@ -70,7 +70,7 @@
     select(parent, t('subLang'), languages, prefs.subLang, value => { prefs.subLang = value; });
     const help = el('p', t('audioPreferenceHelp'), parent); help.className = 'audio-help';
     button(t('save'), async () => { await persist(); view = 'watch'; await analyze(true); }, parent);
-    BWLReport.mount(parent, includeExample => supportSnapshot(includeExample));
+    BWLReport.mount(parent, (includeExample, includeWatchlist) => supportSnapshot(includeExample, includeWatchlist));
   }
   function card(item, parent, hidden = false) {
     const article = el('article', undefined, parent);
@@ -540,17 +540,17 @@
   document.addEventListener('bwl:session-ready', () => {
     if (waitingForSession && !busy && root) { waitingForSession = false; analyze(); }
   });
-  function supportSnapshot(includeExample) {
+  function supportSnapshot(includeExample, includeWatchlist) {
     return BWLReport.snapshot({ prefs, view, lang: CRI18n.lang(), busy,
       background: backgroundAnalysis, cacheState, sessionPaused: waitingForSession,
       mounted: Boolean(host?.isConnected), progress,
       errorCount: results.filter(item => item.status === 'error').length,
-      example: results.find(item => item.status === 'error') || results[0] }, includeExample);
+      example: results.find(item => item.status === 'error') || results[0], results }, includeExample, includeWatchlist);
   }
   chrome.runtime?.onMessage?.addListener((message, _sender, respond) => {
-    if (message?.type === 'bwl:support') { respond(supportSnapshot(message.includeExample === true)); return; }
+    if (message?.type === 'bwl:support') { respond(supportSnapshot(message.includeExample === true, message.includeWatchlist === true)); return; }
     if (message?.type !== 'bwl:diagnostic') return;
-    respond({ version: '0.5.7', watchlist: BWL.watchlist(location.pathname),
+    respond({ version: '0.5.9', watchlist: BWL.watchlist(location.pathname),
       mounted: Boolean(host?.isConnected), busy, count: results.length, notice,
       progress, cacheState, layout: BWL.layoutReport(host, document) });
   });

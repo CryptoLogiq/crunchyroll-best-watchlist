@@ -1,7 +1,7 @@
 # Crunchyroll Best Watchlist
 
 Extension Manifest V3 pour Chromium, Chrome et Edge. La version de développement
-**0.5.7** organise la watchlist directement dans Crunchyroll, sous les onglets
+**0.5.9** organise la watchlist directement dans Crunchyroll, sous les onglets
 Watchlist / Crunchylists / Historique. La liste native reste accessible dessous.
 
 Extension non officielle, sans affiliation à Crunchyroll. La publication sur le
@@ -157,12 +157,29 @@ locales documentées dans `extension/THIRD_PARTY.md`.
 ## Signaler un problème
 
 Dans **Paramètres** ou la popup, ouvrir **Signaler un problème**. Le rapport est
-préparé localement, visible et modifiable avant copie. Le lien ouvre une issue GitHub
-sans transmettre le rapport : le coller manuellement avec les étapes de reproduction.
-Les issues sont publiques. Aucun jeton, cookie, compte, titre, recherche, URL privée
-ou réponse API brute n'est inclus automatiquement. Aucun journal de navigation n'est collecté.
-Le rapport comprend les versions (navigateur limité à sa version majeure), préférences
-audio et filtres, état de session/analyse/cache et compteurs techniques.
-Un exemple facultatif ajoute uniquement état, langues et numéro du prochain épisode
-pour la première erreur ou la première série ; ce résumé ne garantit pas la reproduction
-complète du bug et ne contient aucun identifiant permettant de retrouver le titre.
+préparé localement, lisible et modifiable avant partage. Les options sont désactivées
+par défaut : exemple structurel anonymisé, ou watchlist (titres, identifiants publics,
+favoris, masquage, langues et progression disponible). Les options sélectionnées
+apparaissent dans l’aperçu. Les jetons, cookies, login, e-mail, identifiants de compte,
+recherches, URL privées et erreurs/API brutes ne sont pas exportés automatiquement.
+Aucun journal de navigation n’est collecté.
+
+**Copier le rapport chiffré** compresse puis chiffre exactement l’aperçu modifié.
+Chaque rapport utilise une nouvelle clé AES-256-GCM, protégée par la clé publique
+RSA-OAEP SHA-256 du mainteneur. Le format `BWL2:` contient un identifiant de clé
+et le contenu chiffré/authentifié. La clé privée reste dans le dépôt privé local,
+jamais dans l’extension ou les ZIP. Un rapport altéré est rejeté au déchiffrement.
+L’extension ne contacte aucun serveur pour chiffrer ; aucun envoi n’est automatique.
+
+La copie lisible reste un choix explicite distinct. En cas d’échec de copie, le rapport
+chiffré est affiché et sélectionné pour copie manuelle ; un échec de chiffrement ne
+provoque jamais de copie automatique en clair. Maximum : 2 Mo avant compression.
+Le déchiffreur et son mode d’emploi sont conservés uniquement dans le dépôt privé
+sous `private-reports/`. Garder les anciennes clés pour les rapports des anciennes versions.
+Le décodeur public `tools/decode_report.py` reste réservé aux anciens rapports
+`BWL1:GZIP:` non chiffrés, et ne peut pas lire un rapport `BWL2:`.
+
+Le lien GitHub ouvre le formulaire sans joindre de rapport. Coller celui-ci manuellement
+et compléter les étapes et le résultat attendu. La watchlist exportée contient les résultats
+déjà analysés, potentiellement partiels ; elle n’inclut pas les réponses API complètes
+et ne garantit donc pas la reproduction exacte d’un bug.

@@ -5,7 +5,7 @@ Une demande explicite de l'utilisateur prime. Ne cocher qu'après vérification 
 
 ## État actuel
 
-Version 0.5.7 : interface intégrée, audio préféré/secondaire, sous-titres, cache,
+Version 0.5.9 : interface intégrée, audio préféré/secondaire, sous-titres, cache,
 favoris Crunchyroll, historique, recherche, tri et traductions EN/FR/JA implémentés.
 Les onglets optionnels apparaissent lorsqu'ils contiennent des résultats.
 Les anciennes demandes de repli VO automatique, cases de visibilité et blocs dépliants
@@ -16,6 +16,8 @@ La présence d'un paquet Firefox ne valide pas sa compatibilité.
 ## Tâches ouvertes
 
 ### P0 — Fiabilité avant diffusion
+
+- [x] Remplacer la copie encodée par un rapport chiffré AES-256-GCM / RSA-OAEP SHA-256 ; clé publique embarquée, clé privée et déchiffreur dans le dépôt privé local ignoré. Aperçu/consentement conservés ; aller-retour réel et rejet des altérations testés pour les deux paquets. Aucune publication effectuée.
 
 - [ ] Consigner les essais réels de la version candidate dans `docs/browser-validation.md` :
   routes localisées sur `.com`, watchlist vide/longue, pagination, navigation interne,
@@ -110,3 +112,7 @@ La présence d'un paquet Firefox ne valide pas sa compatibilité.
 - [x] Structurer les cibles Chromium/Firefox sans déplacer l’installation existante : manifestes différentiels, constructions isolées, ZIP reproductibles, consignes agent et matrice de validation. Trois tests de construction et 21 scénarios Chromium réussis ; compatibilité fonctionnelle Firefox encore à valider.
 
 - [x] Ajouter un rapport technique volontaire dans Paramètres et popup, aperçu modifiable, copie et lien GitHub sans transmission automatique ; exemple structurel anonymisé optionnel et formulaire de bug commun ; 22 scénarios Chromium et 3 tests de construction réussis.
+
+- [x] 0.5.8 — Aperçu explicite, watchlist facultative et copie encodée gzip/Base64 de l’aperçu modifié, sans promesse de chiffrement ; décodeur local borné, 23 scénarios Chromium et 6 tests Python réussis.
+
+- [x] 0.5.9 — Générer la paire RSA 3072 bits sans écrasement, chiffrer les rapports en BWL2 avec clés/IV aléatoires et authentification, préparer le déchiffreur privé et sa documentation ; 23 scénarios Chromium, 7 tests Python publics et intégration navigateur/Python des deux paquets réussis.

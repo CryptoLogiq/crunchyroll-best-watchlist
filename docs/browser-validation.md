@@ -1,11 +1,11 @@
 # Validation des navigateurs
 
-Version candidate : 0.5.7. Aucun identifiant de compte ou jeton dans les relevés.
+Version candidate : 0.5.9. Aucun identifiant de compte ou jeton dans les relevés.
 
 | Contrôle | Chromium | Chrome | Edge | Firefox |
 | --- | --- | --- | --- | --- |
 | Manifeste et ressources (automatique) | Réussi | Même paquet | Même paquet | Réussi |
-| Scénarios communs synthétiques | 22 scénarios réussis | Non exécuté | Non exécuté | Non exécuté |
+| Scénarios communs synthétiques | 23 scénarios réussis | Non exécuté | Non exécuté | Non exécuté |
 | Installation / panneau sur compte réel | Retours utilisateur positifs | À consigner | Non exécuté | Non exécuté |
 | Session expirée / reconnexion / profil | À consigner | À consigner | Non exécuté | Non exécuté |
 | Audio, sous-titres, progression, lecture | À consigner | À consigner | Non exécuté | Non exécuté |
@@ -26,3 +26,5 @@ résultat et limite éventuelle. Ne pas cocher un navigateur sur la seule base d
   `about:debugging#/runtime/this-firefox`, charger un module temporaire et choisir
   `dist/firefox/manifest.json`. Installation de développement temporaire ; ne pas
   confondre avec la distribution signée sur Firefox Add-ons.
+
+Chiffrement BWL2 : aller-retour des deux paquets via Chromium vers le déchiffreur Python privé réussi ; rejets de contenu/IV/clé enveloppée altérés et de clé absente vérifiés. Cela ne valide pas Firefox en exécution réelle.
