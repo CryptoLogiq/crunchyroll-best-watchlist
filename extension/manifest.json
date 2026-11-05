@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Crunchyroll Best Watchlist",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Organize your Crunchyroll watchlist directly on the website.",
   "permissions": [
     "storage"
@@ -32,6 +32,7 @@
         "src/cache.js",
         "src/styles.js",
         "src/synopsis.js",
+        "src/report.js",
         "src/content.js"
       ],
       "run_at": "document_idle"

@@ -5,7 +5,7 @@ Une demande explicite de l'utilisateur prime. Ne cocher qu'après vérification 
 
 ## État actuel
 
-Version 0.5.6 : interface intégrée, audio préféré/secondaire, sous-titres, cache,
+Version 0.5.7 : interface intégrée, audio préféré/secondaire, sous-titres, cache,
 favoris Crunchyroll, historique, recherche, tri et traductions EN/FR/JA implémentés.
 Les onglets optionnels apparaissent lorsqu'ils contiennent des résultats.
 Les anciennes demandes de repli VO automatique, cases de visibilité et blocs dépliants
@@ -108,3 +108,5 @@ La présence d'un paquet Firefox ne valide pas sa compatibilité.
 - [x] Préparer le commit initial de l’extension 0.5.6 : README réconcilié, 21 tests Chromium réussis, manifeste/popup/archive/licence vérifiés et fichiers locaux exclus.
 
 - [x] Structurer les cibles Chromium/Firefox sans déplacer l’installation existante : manifestes différentiels, constructions isolées, ZIP reproductibles, consignes agent et matrice de validation. Trois tests de construction et 21 scénarios Chromium réussis ; compatibilité fonctionnelle Firefox encore à valider.
+
+- [x] Ajouter un rapport technique volontaire dans Paramètres et popup, aperçu modifiable, copie et lien GitHub sans transmission automatique ; exemple structurel anonymisé optionnel et formulaire de bug commun ; 22 scénarios Chromium et 3 tests de construction réussis.

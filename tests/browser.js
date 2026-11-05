@@ -8,6 +8,34 @@
     try { await fn(); lines.push('PASS ' + name); }
     catch (e) { failed++; lines.push('FAIL ' + name + ': ' + (e.stack || e.message)); }
   };
+  await test('support report excludes secrets and includes structural example only with consent', async () => {
+    const secret = 'PRIVATE_TOKEN_TITLE_ACCOUNT_URL';
+    const raw = { lang: 'fr', view: 'watch', prefs: { audioPrimary: 'fr-FR', audioSecondary: 'ja-JP', subLang: 'fr-FR', token: secret },
+      notice: secret, error: secret, scope: secret, url: secret, progress: { done: 1, total: 4, token: secret },
+      example: { title: secret, seriesId: secret, status: 'pending', error: secret,
+        audios: { any: ['fr-FR', secret] }, pending: [{ id: secret, number: 187 }] } };
+    const basic = BWLReport.snapshot(raw);
+    equal('example' in basic, false);
+    equal(JSON.stringify(basic).includes(secret), false);
+    const extra = BWLReport.snapshot(raw, true);
+    equal(extra.example.nextEpisode, 187);
+    equal(extra.example.availableAudio, ['fr-FR', 'other']);
+    equal(JSON.stringify(extra).includes(secret), false);
+    equal(BWLReport.issueURL.includes('body='), false);
+    const container = document.createElement('div'); document.body.append(container);
+    let optedIn;
+    BWLReport.mount(container, async consent => { optedIn = consent; return BWLReport.snapshot(raw, consent); });
+    const buttons = container.querySelectorAll('button');
+    buttons[0].click(); await new Promise(resolve => setTimeout(resolve, 0));
+    equal(optedIn, false);
+    equal(container.querySelector('textarea').value.includes(secret), false);
+    const checkbox = container.querySelector('input'); checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change')); await new Promise(resolve => setTimeout(resolve, 0));
+    equal(optedIn, true);
+    equal(container.querySelector('textarea').value.includes('"nextEpisode": 187'), true);
+    equal(container.querySelector('a').rel, 'noopener noreferrer');
+    container.remove();
+  });
   await test('localized paths override .com and document language', () => {
     equal(BWL.language('https://www.crunchyroll.com/fr/watchlist', 'en'), 'fr');
     equal(BWL.language('https://www.crunchyroll.com/it/watchlist', 'fr'), 'en');
@@ -450,7 +478,8 @@
       equal(options.hidden, true);
       [...panel.querySelectorAll('nav button')].find(x => x.textContent === CRI18n.t('settings')).click();
       const initialAudio = [...panel.querySelectorAll('select')].slice(1).map(node => node.value);
-      equal(panel.querySelectorAll('input[type="checkbox"]').length, 0);
+      equal([...panel.querySelectorAll('input[type="checkbox"]')].filter(node => !node.closest('.support-report')).length, 0);
+      equal(panel.querySelector('.support-report input').checked, false);
       const audioControls = panel.querySelectorAll('select');
       equal(audioControls[1].closest('label').textContent.startsWith(CRI18n.t('primaryAudio')), true);
       equal(audioControls[2].closest('label').textContent.startsWith(CRI18n.t('secondaryAudio')), true);

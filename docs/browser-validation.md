@@ -1,11 +1,11 @@
 # Validation des navigateurs
 
-Version candidate : 0.5.6. Aucun identifiant de compte ou jeton dans les relevés.
+Version candidate : 0.5.7. Aucun identifiant de compte ou jeton dans les relevés.
 
 | Contrôle | Chromium | Chrome | Edge | Firefox |
 | --- | --- | --- | --- | --- |
 | Manifeste et ressources (automatique) | Réussi | Même paquet | Même paquet | Réussi |
-| Scénarios communs synthétiques | 21 scénarios réussis | Non exécuté | Non exécuté | Non exécuté |
+| Scénarios communs synthétiques | 22 scénarios réussis | Non exécuté | Non exécuté | Non exécuté |
 | Installation / panneau sur compte réel | Retours utilisateur positifs | À consigner | Non exécuté | Non exécuté |
 | Session expirée / reconnexion / profil | À consigner | À consigner | Non exécuté | Non exécuté |
 | Audio, sous-titres, progression, lecture | À consigner | À consigner | Non exécuté | Non exécuté |
