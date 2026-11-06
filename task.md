@@ -118,3 +118,5 @@ La présence d'un paquet Firefox ne valide pas sa compatibilité.
 - [x] 0.5.9 — Générer la paire RSA 3072 bits sans écrasement, chiffrer les rapports en BWL2 avec clés/IV aléatoires et authentification, préparer le déchiffreur privé et sa documentation ; 23 scénarios Chromium, 7 tests Python publics et intégration navigateur/Python des deux paquets réussis.
 
 - [x] Retirer le bouton de copie du rapport en clair ; conserver aperçu modifiable et seule copie chiffrée, avec régression du nombre/libellé des boutons.
+
+- [x] Rendre l’aperçu clair en lecture seule, bloquer sélection/copie/découpe/menu contextuel et préserver la copie de secours chiffrée ; régression ciblée dans le scénario de diagnostic.

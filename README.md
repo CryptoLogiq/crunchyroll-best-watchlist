@@ -157,14 +157,14 @@ locales documentées dans `extension/THIRD_PARTY.md`.
 ## Signaler un problème
 
 Dans **Paramètres** ou la popup, ouvrir **Signaler un problème**. Le rapport est
-préparé localement, lisible et modifiable avant partage. Les options sont désactivées
+préparé localement, lisible en lecture seule avant partage. Les options sont désactivées
 par défaut : exemple structurel anonymisé, ou watchlist (titres, identifiants publics,
 favoris, masquage, langues et progression disponible). Les options sélectionnées
 apparaissent dans l’aperçu. Les jetons, cookies, login, e-mail, identifiants de compte,
 recherches, URL privées et erreurs/API brutes ne sont pas exportés automatiquement.
 Aucun journal de navigation n’est collecté.
 
-**Copier le rapport chiffré** compresse puis chiffre exactement l’aperçu modifié.
+**Copier le rapport chiffré** compresse puis chiffre exactement l’aperçu affiché.
 Chaque rapport utilise une nouvelle clé AES-256-GCM, protégée par la clé publique
 RSA-OAEP SHA-256 du mainteneur. Le format `BWL2:` contient un identifiant de clé
 et le contenu chiffré/authentifié. La clé privée reste dans le dépôt privé local,
@@ -183,3 +183,5 @@ Le lien GitHub ouvre le formulaire sans joindre de rapport. Coller celui-ci manu
 et compléter les étapes et le résultat attendu. La watchlist exportée contient les résultats
 déjà analysés, potentiellement partiels ; elle n’inclut pas les réponses API complètes
 et ne garantit donc pas la reproduction exacte d’un bug.
+
+L’aperçu en clair bloque sélection, copie, découpe et menu contextuel pour éviter le partage accidentel ; le texte chiffré de secours reste copiable. Ce blocage d’interface ne protège pas contre une capture ou les outils du navigateur.

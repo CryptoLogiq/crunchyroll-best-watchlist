@@ -70,9 +70,18 @@ var BWLReport = (() => {
     const watchlist = node('input', '', listLabel); watchlist.type = 'checkbox';
     listLabel.append(document.createTextNode(t('reportWatchlist')));
     node('p', t('reportEncodingHelp'), section);
-    const preview = node('textarea', '', section); preview.rows = 14;
+    const preview = node('textarea', '', section); preview.rows = 14; preview.readOnly = true;
     preview.setAttribute('aria-label', t('reportPreview'));
-    preview.style.cssText = 'display:block;box-sizing:border-box;width:100%;max-width:100%;margin:8px 0';
+    preview.style.cssText = 'display:block;box-sizing:border-box;width:100%;max-width:100%;margin:8px 0;user-select:none;-webkit-user-select:none';
+    for (const event of ['copy', 'cut', 'contextmenu', 'selectstart', 'dragstart'])
+      preview.addEventListener(event, e => e.preventDefault());
+    preview.addEventListener('select', () => {
+      if (preview.selectionStart !== preview.selectionEnd)
+        preview.setSelectionRange(preview.selectionStart, preview.selectionStart);
+    });
+    preview.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'x'].includes(e.key.toLowerCase())) e.preventDefault();
+    });
     const status = node('p', '', section); status.setAttribute('role', 'status');
     const prepare = node('button', t('reportPrepare'), section); prepare.type = 'button';
     let revision = 0;

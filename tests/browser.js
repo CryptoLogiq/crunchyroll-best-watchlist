@@ -33,6 +33,15 @@
     checkbox.dispatchEvent(new Event('change')); await new Promise(resolve => setTimeout(resolve, 0));
     equal(optedIn, true);
     equal(container.querySelector('textarea').value.includes('"nextEpisode": 187'), true);
+    const preview = container.querySelector('textarea');
+    equal(preview.readOnly, true);
+    for (const name of ['copy', 'cut', 'contextmenu', 'selectstart', 'dragstart'])
+      equal(preview.dispatchEvent(new Event(name, { cancelable: true })), false);
+    equal(preview.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, cancelable: true })), false);
+    preview.setSelectionRange(0, 10); preview.dispatchEvent(new Event('select'));
+    equal(preview.selectionStart === preview.selectionEnd, true);
+    // The fallback encrypted text must remain selectable and copyable.
+    equal(container.querySelectorAll('textarea')[1].dispatchEvent(new Event('copy', { cancelable: true })), true);
     equal(container.querySelectorAll('button').length, 2);
     equal(container.querySelectorAll('button')[1].textContent, CRI18n.t('reportCopyEncoded'));
     equal(container.querySelector('a').rel, 'noopener noreferrer');
