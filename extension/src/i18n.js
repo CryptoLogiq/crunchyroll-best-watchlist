@@ -3,7 +3,7 @@ var CRI18n = (() => {
     fr: {
       reportPrivacy: "Aucun envoi automatique. Jetons, cookies, login, e-mail, identifiants de compte/profil, recherches et URL privées sont exclus. Relisez le rapport avant publication : les issues GitHub sont publiques.",
       reportWatchlist: " Joindre ma watchlist : titres, identifiants publics des séries/épisodes, favoris, masquage, langues et progression disponible. Visible dans l’aperçu avant partage.",
-      reportEncodingHelp: "Le bouton chiffre exactement le texte visible avec notre clé publique (AES-256-GCM et RSA-OAEP). Seule la clé privée du mainteneur permet de le déchiffrer. La copie en clair reste possible si vous la choisissez.",
+      reportEncodingHelp: "Le bouton chiffre exactement le texte visible avec notre clé publique (AES-256-GCM et RSA-OAEP). Seule la clé privée du mainteneur permet de le déchiffrer.",
       reportCopyEncoded: "Copier le rapport chiffré",
       reportEncodeFailed: "Chiffrement impossible ou rapport trop volumineux (maximum 2 Mo). Aucun rapport en clair n’a été copié automatiquement.",
 
@@ -13,7 +13,6 @@ var CRI18n = (() => {
       reportPrepare: "Préparer le rapport",
       reportReview: "Relisez et modifiez le rapport, copiez-le puis collez-le dans votre issue GitHub. Décrivez aussi les étapes et le résultat attendu.",
       reportUnavailable: "Diagnostic de la page indisponible. Ouvrez la watchlist et rechargez-la.",
-      reportCopy: "Copier le rapport",
       reportCopied: "Rapport copié.",
       reportCopyManual: "Sélection effectuée : utilisez Ctrl+C pour copier.",
       reportGithub: "Ouvrir une issue GitHub",
@@ -78,7 +77,7 @@ var CRI18n = (() => {
     en: {
       reportPrivacy: "Nothing is sent automatically. Tokens, cookies, login, email, account/profile IDs, searches and private URLs are excluded. Review before posting: GitHub issues are public.",
       reportWatchlist: " Attach my watchlist: titles, public series/episode IDs, favorites, hidden state, languages and available progress. Shown in the preview before sharing.",
-      reportEncodingHelp: "The button encrypts exactly the visible text with our public key (AES-256-GCM and RSA-OAEP). Only the maintainer’s private key can decrypt it. Readable copying remains available if you choose it.",
+      reportEncodingHelp: "The button encrypts exactly the visible text with our public key (AES-256-GCM and RSA-OAEP). Only the maintainer’s private key can decrypt it.",
       reportCopyEncoded: "Copy encrypted report",
       reportEncodeFailed: "Encryption failed or report too large (maximum 2 MB). No plaintext report was copied automatically.",
 
@@ -88,7 +87,6 @@ var CRI18n = (() => {
       reportPrepare: "Prepare report",
       reportReview: "Review and edit the report, copy it, then paste it into your GitHub issue. Also describe the steps and expected result.",
       reportUnavailable: "Page diagnostic unavailable. Open the watchlist and reload it.",
-      reportCopy: "Copy report",
       reportCopied: "Report copied.",
       reportCopyManual: "Text selected: press Ctrl+C to copy.",
       reportGithub: "Open a GitHub issue",
@@ -153,7 +151,7 @@ var CRI18n = (() => {
     ja: {
       reportPrivacy: "自動送信はしません。トークン、Cookie、ログイン名、メール、アカウント・プロフィールID、検索語、非公開URLは含めません。GitHubのIssueは公開されるため、投稿前に確認してください。",
       reportWatchlist: " ウォッチリストを添付：作品名、公開作品・エピソードID、お気に入り、非表示状態、言語、取得済みの進捗。共有前にプレビューに表示します。",
-      reportEncodingHelp: "表示中のテキストを公開鍵で暗号化します（AES-256-GCMとRSA-OAEP）。管理者の秘密鍵のみで復号できます。必要であれば平文でもコピーできます。",
+      reportEncodingHelp: "表示中のテキストを公開鍵で暗号化します（AES-256-GCMとRSA-OAEP）。管理者の秘密鍵のみで復号できます。",
       reportCopyEncoded: "暗号化したレポートをコピー",
       reportEncodeFailed: "暗号化できないか、2 MBの上限を超えています。平文が自動コピーされることはありません。",
 
@@ -163,7 +161,6 @@ var CRI18n = (() => {
       reportPrepare: "レポートを作成",
       reportReview: "内容を確認・編集し、コピーしてGitHubのIssueに貼り付けてください。再現手順と期待する結果も記入してください。",
       reportUnavailable: "診断を取得できません。ウォッチリストを開いて再読み込みしてください。",
-      reportCopy: "レポートをコピー",
       reportCopied: "コピーしました。",
       reportCopyManual: "選択しました。Ctrl+Cでコピーしてください。",
       reportGithub: "GitHubのIssueを開く",

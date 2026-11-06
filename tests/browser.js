@@ -33,6 +33,8 @@
     checkbox.dispatchEvent(new Event('change')); await new Promise(resolve => setTimeout(resolve, 0));
     equal(optedIn, true);
     equal(container.querySelector('textarea').value.includes('"nextEpisode": 187'), true);
+    equal(container.querySelectorAll('button').length, 2);
+    equal(container.querySelectorAll('button')[1].textContent, CRI18n.t('reportCopyEncoded'));
     equal(container.querySelector('a').rel, 'noopener noreferrer');
     container.remove();
   });

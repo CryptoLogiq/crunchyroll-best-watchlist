@@ -171,7 +171,7 @@ et le contenu chiffré/authentifié. La clé privée reste dans le dépôt priv�
 jamais dans l’extension ou les ZIP. Un rapport altéré est rejeté au déchiffrement.
 L’extension ne contacte aucun serveur pour chiffrer ; aucun envoi n’est automatique.
 
-La copie lisible reste un choix explicite distinct. En cas d’échec de copie, le rapport
+Seule la copie chiffrée est proposée. En cas d’échec de copie, le rapport
 chiffré est affiché et sélectionné pour copie manuelle ; un échec de chiffrement ne
 provoque jamais de copie automatique en clair. Maximum : 2 Mo avant compression.
 Le déchiffreur et son mode d’emploi sont conservés uniquement dans le dépôt privé

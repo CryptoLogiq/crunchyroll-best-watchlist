@@ -77,13 +77,13 @@ var BWLReport = (() => {
     const prepare = node('button', t('reportPrepare'), section); prepare.type = 'button';
     let revision = 0;
     async function generate() {
-      prepare.disabled = true; copy.disabled = true; encodedCopy.disabled = true;
+      prepare.disabled = true; encodedCopy.disabled = true;
       const generation = ++revision;
       try {
         const report = await getSnapshot(example.checked, watchlist.checked);
         if (generation !== revision) return;
         preview.value = '## Technical report\n```json\n' + JSON.stringify(report, null, 2) + '\n```\n';
-        copy.disabled = false; encodedCopy.disabled = false; encodedOutput.hidden = true;
+        encodedCopy.disabled = false; encodedOutput.hidden = true;
         status.textContent = t('reportReview');
       } catch { if (generation === revision) { preview.value = ''; status.textContent = t('reportUnavailable'); } }
       finally { if (generation === revision) prepare.disabled = false; }
@@ -91,11 +91,6 @@ var BWLReport = (() => {
     prepare.onclick = generate;
     example.onchange = generate;
     watchlist.onchange = generate;
-    const copy = node('button', t('reportCopy'), section); copy.type = 'button'; copy.disabled = true;
-    copy.onclick = async () => {
-      try { await navigator.clipboard.writeText(preview.value); status.textContent = t('reportCopied'); }
-      catch { preview.focus(); preview.select(); status.textContent = t('reportCopyManual'); }
-    };
     const encodedCopy = node('button', t('reportCopyEncoded'), section);
     encodedCopy.type = 'button'; encodedCopy.disabled = true;
     const encodedOutput = node('textarea', '', section); encodedOutput.hidden = true;
